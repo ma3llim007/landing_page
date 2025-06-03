@@ -3,9 +3,7 @@ import gsap from "gsap";
 import { useEffect, useRef } from "react";
 
 const HeroSection = styled(Box)(({ theme }) => ({
-    background: "0D0D0D",
-    color: "#FFFFFF",
-    minHeight: "70vh",
+    minHeight: "100vh",
     display: "flex",
     alignItems: "center",
     position: "relative",
@@ -43,7 +41,6 @@ const Hero: React.FC = () => {
 
     useEffect(() => {
         gsap.from([titleRef.current, buttonRef.current, circleRef.current], {
-            opacity: 0,
             y: 30,
             duration: 1,
             stagger: 0.2,
@@ -54,9 +51,15 @@ const Hero: React.FC = () => {
     return (
         <HeroSection>
             <Container maxWidth="lg">
-                <Box maxWidth={"600px"}>
-                    <Typography ref={titleRef} variant="h1" sx={{ fontWeight: 700 }} gutterBottom>
-                        Driving Results with <StyledText>Creative Digital</StyledText> Solutions
+                <Box maxWidth={"800px"} border={"1px solid red"}>
+                    <Typography ref={titleRef} variant="h2" color="primary" sx={{ fontWeight: 700 }} gutterBottom>
+                        Driving Results
+                    </Typography>
+                    <Typography ref={titleRef} variant="h2" color="primary" sx={{ fontWeight: 700 }} gutterBottom>
+                        with <StyledText>Creative Digital</StyledText>
+                    </Typography>
+                    <Typography ref={titleRef} variant="h2" color="primary" sx={{ fontWeight: 700 }} gutterBottom>
+                        Solutions
                     </Typography>
                     <Typography variant="body1" sx={{ color: "#C0C0C0", mb: 4 }}>
                         Our team of experts is dedicated to helping you achieve your digital goals. From website design and development to SEO, PPC advertising, and social media marketing.
@@ -65,8 +68,8 @@ const Hero: React.FC = () => {
                         Explore Our Servies
                     </Button>
                 </Box>
+                <Circle ref={circleRef}>PROJECT SHOWCASE · PROJECT SHOWCASE ·</Circle>
             </Container>
-            <Circle ref={circleRef}>PROJECT SHOWCASE · PROJECT SHOWCASE ·</Circle>
         </HeroSection>
     );
 };

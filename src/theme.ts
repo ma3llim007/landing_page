@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material";
+import "@fontsource/inter"
 
 const theme = createTheme({
     palette: {
@@ -20,7 +21,7 @@ const theme = createTheme({
         },
     },
     typography: {
-        fontFamily: "'Inter', sans-serif",
+        fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
     },
 });
 
