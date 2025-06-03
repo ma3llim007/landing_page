@@ -1,4 +1,4 @@
-import { Box, Button, Container, styled, Typography } from "@mui/material";
+import { Box, Container, styled, Typography } from "@mui/material";
 import gsap from "gsap";
 import Grid from "@mui/material/Grid";
 import { useEffect, useRef } from "react";
@@ -6,13 +6,23 @@ import StarIcon from "@mui/icons-material/Star";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import theme from "../theme";
 
-const HeroSection = styled(Box)({
+const HeroSection = styled(Box)(({ theme }) => ({
     minHeight: "100vh",
     display: "flex",
-    alignItems: "center",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    textAlign: "center",
     overflow: "hidden",
-    backgroundColor: "#0D0D0D",
-});
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+    [theme.breakpoints.up("md")]: {
+        alignItems: "center",
+    },
+    [theme.breakpoints.up("lg")]: {
+        position: "relative",
+        padding: theme.spacing(8, 4),
+    },
+}));
 
 const StyledText = styled("span")({
     fontStyle: "italic",
@@ -32,6 +42,9 @@ const Wrapper = styled("div")({
         width: 150,
         height: 150,
     },
+    [theme.breakpoints.between("md", "lg")]: {
+        display: "none",
+    },
 });
 
 const RotatingText = styled("svg")({
@@ -47,18 +60,107 @@ const CenterIcon = styled(StarIcon)({
     color: theme.palette.grey[500],
     fontSize: 60,
     zIndex: 2,
+    [theme.breakpoints.down("sm")]: {
+        display: "none",
+    },
+    [theme.breakpoints.down("md")]: {
+        display: "none",
+    },
 });
 
 const RoundedIcon = styled("div")({
-    width: 70,
-    height: 70,
+    width: 50,
+    height: 50,
     backgroundColor: "#505050",
-    top: "-25px",
-    left:"45px",
+    top: "-16px",
+    left: "45px",
     position: "absolute",
     borderRadius: "50%",
     opacity: "0.7",
+    [theme.breakpoints.down("sm")]: {
+        display: "none",
+    },
+    [theme.breakpoints.down("md")]: {
+        display: "none",
+    },
+    [theme.breakpoints.up("lg")]: {
+        width: 70,
+        height: 70,
+        top: "-20px",
+        left: "50px",
+    },
+    [theme.breakpoints.between("md", "lg")]: {
+        display: "none",
+    },
 });
+
+const CircularButton = styled("button")(({ theme }) => ({
+    width: 150,
+    height: 150,
+    borderRadius: "50%",
+    border: "2px solid #505050",
+    color: "#FFFFFF",
+    textTransform: "uppercase",
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignContent: "center",
+    fontSize: "0.8rem",
+    letterSpacing: "1px",
+    position: "absolute",
+    backgroundColor: "transparent",
+    opacity: 0.7,
+    transition: "all 0.3s ease",
+    cursor: "pointer",
+    outline: "none",
+    borderStyle: "solid",
+    "&:hover": {
+        opacity: 0.8,
+        borderColor: "#888",
+    },
+    "& > .arrow-icon": {
+        position: "absolute",
+        right: 15,
+        bottom: 30,
+        fontSize: 20,
+    },
+    "& > span": {
+        textAlign: "start",
+        lineHeight: 1.4,
+    },
+    [theme.breakpoints.down("sm")]: {
+        height: 50,
+        borderRadius: 10,
+        fontSize: "0.8rem",
+        letterSpacing: "1px",
+        position: "static",
+        "& > .arrow-icon": {
+            display: "none",
+        },
+    },
+    [theme.breakpoints.down("md")]: {
+        height: 50,
+        borderRadius: 10,
+        fontSize: "0.8rem",
+        letterSpacing: "1px",
+        position: "static",
+        "& > .arrow-icon": {
+            display: "none",
+        },
+    },
+     [theme.breakpoints.between("md", "lg")]: {
+         height: 50,
+        borderRadius: 10,
+        fontSize: "0.8rem",
+        letterSpacing: "1px",
+        position: "static",
+        "& > .arrow-icon": {
+            display: "none",
+        },
+    },
+}));
 
 const Hero: React.FC = () => {
     const titleRef = useRef<HTMLHeadingElement | null>(null);
@@ -87,16 +189,34 @@ const Hero: React.FC = () => {
     return (
         <HeroSection>
             <Container>
-                <Grid container spacing={4} alignItems="center">
-                    <Grid size={{ lg: 9 }}>
+                <Grid
+                    container
+                    display="flex"
+                    alignItems="center"
+                    spacing={4}
+                    justifyContent={{
+                        xs: "center",
+                        sm: "center",
+                        md: "center",
+                        lg: "flex-start",
+                    }}
+                    textAlign={{
+                        xs: "center",
+                        sm: "center",
+                        md: "center",
+                        lg: "start",
+                    }}
+                >
+                    <Grid size={{ xs: 12, md: 12, lg: 9 }}>
                         <Typography
                             ref={titleRef}
                             variant="h2"
                             sx={{
                                 fontWeight: 800,
-                                fontSize: { xs: "2.2rem", sm: "3rem", md: "3.5rem", lg: "5rem" },
+                                fontSize: { xs: "2rem", sm: "3rem", md: "3.5rem", lg: "5rem" },
                                 color: "#FFFFFF",
                                 lineHeight: 1.2,
+                                mb: 4,
                             }}
                             gutterBottom
                         >
@@ -104,52 +224,35 @@ const Hero: React.FC = () => {
                             with <StyledText>Creative Digital</StyledText> <br />
                             Solutions
                         </Typography>
-                        <Typography variant="body1" sx={{ color: "#CCCCCC", fontSize: "1.1rem", maxWidth: 500, position: "relative", left: "380px", top: "-55px" }}>
-                            Our team of experts is dedicated to helping you achieve your digital goals. From website design and development to SEO, PPC advertising, and social media marketing.
-                        </Typography>
-                        <Button
-                            ref={buttonRef}
-                            variant="outlined"
+                        <Typography
+                            variant="body1"
                             sx={{
-                                width: 150,
-                                height: 150,
-                                borderRadius: "50%",
-                                border: "2px solid #505050",
-                                color: "#FFFFFF",
-                                textTransform: "uppercase",
-                                px: 2,
-                                display: "flex",
-                                flexDirection: "column",
-                                justifyContent: "center",
-                                alignContent: "center",
-                                fontSize: "0.8rem",
-                                letterSpacing: "1px",
-                                position: "absolute",
-                                backgroundColor: "transparent",
-                                opacity: 0.5,
-                                transition: "all 0.3s ease",
-                                "&:hover": {
-                                    opacity: 0.8,
-                                    borderColor: "#888",
-                                },
+                                color: "#CCCCCC",
+                                fontSize: { xs: "1rem", lg: "1.1rem" },
+                                maxWidth: { lg: "500px" },
+                                position: { lg: "relative" },
+                                left: { lg: "380px" },
+                                top: { lg: "-55px" },
+                                mb: 2,
                             }}
                         >
-                            <Box component="span" sx={{ textAlign: "start", lineHeight: 1.4 }}>
+                            Our team of experts is dedicated to helping you achieve your digital goals. From website design and development to SEO, PPC advertising, and social media marketing.
+                        </Typography>
+                        <CircularButton
+                            sx={{
+                                mx: { xs: "auto", sm: "auto", md: 0 },
+                                display: "inline-flex",
+                            }}
+                        >
+                            <span>
                                 Explore Our
                                 <br />
                                 Services
-                            </Box>
-                            <ArrowOutwardIcon
-                                sx={{
-                                    position: "absolute",
-                                    right: 15,
-                                    bottom: 30,
-                                    fontSize: "20px",
-                                }}
-                            />
-                        </Button>
+                            </span>
+                            <ArrowOutwardIcon className="arrow-icon" />
+                        </CircularButton>
                     </Grid>
-                    <Grid size={{ lg: 3 }} sx={{ minWidth: "full", display: "flex", justifyContent: "flex-end" }}>
+                    <Grid size={{ xs: 0, sm: 0, md: 0, lg: 3 }} sx={{ minWidth: "full", display: "flex", justifyContent: "flex-end" }}>
                         <Wrapper>
                             <RoundedIcon />
                             <CenterIcon />
@@ -159,7 +262,7 @@ const Hero: React.FC = () => {
                                 </defs>
                                 <text
                                     fill="#FFFFFF"
-                                    fontSize="17"
+                                    fontSize="1rem"
                                     letterSpacing="2"
                                     style={{
                                         fontFamily: '"Inter", sans-serif',

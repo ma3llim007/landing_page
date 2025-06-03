@@ -6,7 +6,7 @@ import '@fontsource/inter/700.css';
 
 const theme = createTheme({
     palette: {
-        mode: "dark",
+        mode: "light",
         background: {
             default: "#0D0D0D",
             paper: "#1A1A1A",
